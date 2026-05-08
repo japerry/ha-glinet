@@ -294,6 +294,20 @@ HUB_SENSORS: tuple[HubSensorEntityDescription, ...] = (
             "gateway": hub.repeater_status.ipv4_gateway
         } if hub.repeater_status and hub.repeater_status.ipv4_gateway else None,
     ),
+    HubSensorEntityDescription(
+        key="fan_speed",
+        name="Fan speed",
+        has_entity_name=True,
+        icon="mdi:fan",
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement="RPM",
+        value_fn=lambda hub: hub.fan_speed,
+        extra_attributes_fn=lambda hub: {
+            "running": hub.fan_running,
+            "temperature_threshold": hub.fan_temperature_threshold,
+            "warn_temperature": hub.fan_warn_temperature,
+        },
+    ),
 )
 
 FEATURE_SENSOR_MAP: dict[str, str] = {
